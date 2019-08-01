@@ -34,6 +34,7 @@ class Fish:
 
         # eye
         center2 = Point( position.getX()-15, position.getY()-5)
+        self.eye_level = center2.getY()
         self.eye = Circle( center2, 5 )
         self.eye.setFill( "black" )
         
@@ -48,6 +49,7 @@ class Fish:
         self.body.move( dx, dy )
         self.tail.move( dx, dy )
         self.eye.move( dx, dy )
+        self.eye_level += dy
 ### END OF CODE TAKEN FROM LAB PAGE ###
 
 #Because our fish live in a post-climate change world, they have no plants. Just random
@@ -81,14 +83,32 @@ class Bubble():
     def rise(self):
         self.image.move(randint(-3, 3), -10)
 
+class Food():
+    def __init__(self):
+        self.size = randint(3, 6)
+        self.center = Point( randint(10, 790), randint(-100, 0))
+        self.image = Circle( self.center, self.size)
+        self.image.setFill('brown')
+        
+    def draw(self, win):
+        self.image.draw(win)
+
+    def sink(self, win):
+        self.image.move(randint(-3, 3), 10)
         
 def main():
     win = GraphWin('Aquarium', 900, 800)
     aquariumBackground(win)
+
+
+
+    #win.setCoords( 0, 0, 900, 800)
+
+
     
     list_of_fish = []
     list_of_bubbles = []
-    counter = 0
+    list_of_food = []
     for dummy in range(7):
         fish1 = Fish(win, Point(randint(100, 750), randint(100, 750)))
         fish1.draw(win)
@@ -99,14 +119,43 @@ def main():
         bubble.draw(win)
         list_of_bubbles.append(bubble)
         
-    for dummyvar in range(200):
-        for aquatic in list_of_fish:
-            dy = randint(-3, 3)
-            aquatic.move(-5, dy)
+    key_press = 0
+    is_there_food = False
+    
+    while key_press != 'q':
+        key_press = win.checkKey()
+        if key_press == 'q':
+            continue
         
-        for orb in list_of_bubbles:
-            counter += 1
-            orb.rise()
+        elif key_press == 'f':
+            for dummy2 in range(30):
+                food = Food()
+                food.draw(win)
+                list_of_food.append(food)
+                is_there_food = True
+            
+        else:
+            for orb in list_of_bubbles:
+                    orb.rise()
+                    
+            if not is_there_food:
+                for aquatic in list_of_fish:
+                    dy = randint(-3, 3)
+                    aquatic.move(-5, dy)
+
+            elif is_there_food:        
+                for pellet in list_of_food:
+                    pellet.sink(win)
+                    
+                for aquatic in list_of_fish:
+                    pellet_height = pellet.center.getY()
+                    fish_height = aquatic.eye_level
+                    difference = fish_height - pellet_height
+                    if difference >= 0:
+                        aquatic.move(-5, -5)
+                    else:
+                        aquatic.move(-5, 5)
+                    
+    win.close()
             
 main()
-        
