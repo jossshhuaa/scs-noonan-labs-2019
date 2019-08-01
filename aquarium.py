@@ -1,3 +1,13 @@
+# -------------------------------------------------
+#        Name: Zaira Garcia, Josh Torres
+#    Filename: aquarium.py
+#        Date: July 31, 2019
+#
+# Description: An aquarium created using the graphics
+#               module. Contains moving fish, dynamic
+#               bubbles, and a randomized background.
+# -------------------------------------------------
+
 from graphics import *
 from random import randint, choice
 ### CODE FROM THE LAB WEBPAGE ###
