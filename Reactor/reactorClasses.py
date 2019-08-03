@@ -1,8 +1,6 @@
 from random import *
 from graphics import *
 from math import *
-from time import *
-
 
 #The reactor itself
 class Reactor:

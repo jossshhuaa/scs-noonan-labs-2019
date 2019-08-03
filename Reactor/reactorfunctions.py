@@ -1,3 +1,5 @@
+from math import *
+from reactorClasses import *
 def getDistance( p1, p2 ):
     distance = sqrt( (p1.getX() - p2.getX())**2 + (p1.getY() - p2.getY())**2)
     return distance
@@ -10,5 +12,3 @@ def isPointInArea( p1, top_left, bottom_right ):
         return True
     else:
         return False
-
-def buildReactorInterface(
